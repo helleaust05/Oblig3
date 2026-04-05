@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<persistence xmlns="https://jakarta.ee/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_2.xsd"
+             version="3.2">
+    <persistence-unit name="default">
+
+    <properties>
+        <property name="jakarta.persistence.jdbc.driver"
+                  value="org.postgresql.Driver"/>
+        <property name="jakarta.persistence.jdbc.url"
+                  value="jdbc:postgresql://ider-database.westeurope.cloudapp.azure.com:5432/heaus0742"/>
+        <property name="jakarta.persistence.jdbc.user" value="heaus0742"/>
+        <property name="jakarta.persistence.jdbc.password" value="Nugatti97!"/>
+    </properties>
+
+    </persistence-unit>
+</persistence>
