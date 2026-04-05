@@ -5,13 +5,16 @@
              version="3.2">
     <persistence-unit name="default">
 
+        <class>classes.Ansatt</class>
+
+
     <properties>
-        <property name="jakarta.persistence.jdbc.driver"
-                  value="org.postgresql.Driver"/>
         <property name="jakarta.persistence.jdbc.url"
                   value="jdbc:postgresql://ider-database.westeurope.cloudapp.azure.com:5432/heaus0742"/>
         <property name="jakarta.persistence.jdbc.user" value="heaus0742"/>
         <property name="jakarta.persistence.jdbc.password" value="Nugatti97!"/>
+        <property name="jakarta.persistence.jdbc.driver"
+                  value="org.postgresql.Driver"/>
     </properties>
 
     </persistence-unit>
