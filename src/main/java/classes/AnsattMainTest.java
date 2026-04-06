@@ -1,18 +1,12 @@
 package classes;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
-
 public class AnsattMainTest {
 
     public static void main(String[] args) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("default");
-        EntityManager em = null;
+        AnsattDAO dao = new AnsattDAO();
 
         try {
-            em = emf.createEntityManager();
-            Ansatt ansatt = em.find(Ansatt.class, 1);
+            Ansatt ansatt = dao.finnAnsattMedID(1);
 
             if (ansatt != null) {
                 System.out.println("Fant ansatt:");
@@ -27,10 +21,7 @@ public class AnsattMainTest {
                 System.out.println("Ingen ansatt funnet med ID 1.");
             }
         } finally {
-            if (em != null) {
-                em.close();
-            }
-            emf.close();
+            AnsattDAO.close();
         }
     }
 }
