@@ -54,12 +54,12 @@ public class Ansatt {
     public void setEtternavn(String etternavn) {this.etternavn = etternavn;}
 
     public String getStilling() {return stilling;}
-    public void setStilling() {this.stilling = stilling;}
+    public void setStilling(String stilling) {this.stilling = stilling;}
 
     public double getManedslonn() {return manedslonn;}
     public void setManedslonn(Double manedslonn) {this.manedslonn = manedslonn;}
 
     public java.time.LocalDate getAnsettelseDato() {return ansettelseDato;}
-    public void setAnsettelseDato(java.time.LocalDate) {this.ansettelseDato = ansettelseDato;}
+    public void setAnsettelseDato(java.time.LocalDate ansettelseDato) {this.ansettelseDato = ansettelseDato;}
 }
 
