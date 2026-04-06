@@ -13,10 +13,10 @@ public class Ansatt {
     @Column(unique = true)
     private String brukernavn;
 
-    @Column
+    @Column(nullable = false)
     private String fornavn;
 
-    @Column
+    @Column(nullable = false)
     private String etternavn;
 
     @Column(name = "TidAnsettelse")
@@ -27,6 +27,10 @@ public class Ansatt {
 
     @Column
     private double manedslonn;
+
+    @ManyToOne
+    @JoinColumn(name = "avdelingID")
+    private Avdeling avdeling;
 
   //Tom konstruktør
     public Ansatt() {}

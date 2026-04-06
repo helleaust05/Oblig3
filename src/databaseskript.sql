@@ -10,5 +10,6 @@ CREATE TABLE Ansatt (
 
 INSERT INTO ansatt (brukernavn, fornavn, etternavn, ansattDato, stilling, manedslonn)
 VALUES
-    ('lihe', 'Lilly', 'Henriksen', '2017-06-24', 'Nugattispiser', 33333,3),
+    ('lihe', 'Lilly', 'Henriksen', '2017-06-24', 'Nugattispiser', 333333),
     ('tola', 'Tonny','Larsen', '2011-09-05', 'professor', 98394);
+

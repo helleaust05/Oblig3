@@ -6,6 +6,7 @@
     <persistence-unit name="default">
 
         <class>classes.Ansatt</class>
+        <class>classes.Avdeling</class>
 
 
     <properties>
