@@ -8,7 +8,7 @@ public class Ansatt {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer ansattId;
 
     @Column(unique = true)
     private String brukernavn;
@@ -41,7 +41,7 @@ public class Ansatt {
         this.ansettelseDato = java.time.LocalDate.now();
     }
 
-    public Integer getId() {return id;}
+    public Integer getId() {return ansattId;}
 
     public String getBrukernavn() {return brukernavn;}
     public void setBrukernavn(String brukernavn) {this.brukernavn = brukernavn;}
@@ -61,5 +61,10 @@ public class Ansatt {
 
     public java.time.LocalDate getAnsettelseDato() {return ansettelseDato;}
     public void setAnsettelseDato(java.time.LocalDate ansettelseDato) {this.ansettelseDato = ansettelseDato;}
+
+    @Override
+    public String toString() {
+        return "[AnsattID: " + ansattId + "\nBrukernavn: " + brukernavn + "\nNavn: " + fornavn + " " + etternavn + "\nStilling: " + stilling + "\nMånedslønn: " + "\nDato: " + ansettelseDato + "]";
+    }
 }
 

@@ -10,10 +10,10 @@ public class AnsattDAO {
 
     private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("default");
 
-    public Ansatt finnAnsattMedID(int id) {
+    public Ansatt finnAnsattMedID(int ansattId) {
         EntityManager em = emf.createEntityManager();
         try {
-            Ansatt ansatt = em.find(Ansatt.class, id);
+            Ansatt ansatt = em.find(Ansatt.class, ansattId);
             return ansatt;
         } finally {
             em.close();
