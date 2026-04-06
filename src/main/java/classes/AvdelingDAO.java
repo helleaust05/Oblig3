@@ -4,7 +4,10 @@ import jakarta.persistence.*;
 
 public class AvdelingDAO {
 
-    private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("default");
+    private EntityManagerFactory emf;
+    public AvdelingDAO(EntityManagerFactory emf) {
+        this.emf = emf;
+    }
 
     public Avdeling finnAvdelingMedId(long avdelingId) {
 
