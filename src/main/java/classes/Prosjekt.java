@@ -10,20 +10,20 @@ public class Prosjekt {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "prosjektID")
+    @Column(name = "prosjektid")
     private Long prosjektId;
 
-    @Column(nullable = false)
+    @Column(name = "prosjektnavn", nullable = false)
     private String prosjektNavn;
 
-    @Column
+    @Column(name = "beskrivelse")
     private String beskrivelse;
 
     @ManyToMany
     @JoinTable(
-        name = "prosjekt_deltakere",
-        joinColumns = @JoinColumn(name = "prosjektID"),
-        inverseJoinColumns = @JoinColumn(name = "ansattID")
+        name = "prosjektdeltakere",
+        joinColumns = @JoinColumn(name = "prosjektid"),
+        inverseJoinColumns = @JoinColumn(name = "ansattid")
     )
     private Set<Ansatt> deltakere = new HashSet<>();
 

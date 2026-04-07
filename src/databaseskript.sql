@@ -34,3 +34,15 @@ ALTER TABLE ansatt ADD COLUMN avdelingid INT REFERENCES avdeling(avdelingid);
 
 UPDATE ansatt SET avdelingid = 1 WHERE ansattid = 1;
 UPDATE ansatt SET avdelingid = 1 WHERE ansattid = 2;
+
+CREATE TABLE prosjekt (
+                          prosjektid INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+                          prosjektnavn varchar(50) NOT NULL,
+                          beskrivelse varchar(300)
+);
+
+CREATE TABLE prosjektdeltakere (
+                                   prosjektid INT REFERENCES prosjekt(prosjektid),
+                                   ansattid INT REFERENCES ansatt(ansattid),
+                                   PRIMARY KEY(ansattid, prosjektid)
+);
