@@ -45,6 +45,9 @@ public class AnsattMeny {
                     skrivUtAvdeling();
                     break;
                 case 8:
+                    leggTilNyAvdeling();
+                    break;
+                case 9:
                     kjorer = false;
                     System.out.println("Avslutter programmet.");
                     break;
@@ -70,8 +73,9 @@ public class AnsattMeny {
         System.out.println("5. Legge inn ny ansatt");
         System.out.println("6. Finn avdeling med ID");
         System.out.println("7. Skriv ut avdeling");
-        System.out.println("8. Avslutt");
-        System.out.print("Velg alternativ (1-8): ");
+        System.out.println("8. Legg til ny avdeling");
+        System.out.println("9. Avslutt");
+        System.out.print("Velg alternativ (1-9): ");
     }
 
     private static void sokEtterID() {
@@ -252,6 +256,26 @@ public class AnsattMeny {
             } else {
                 System.out.println("Fornavn: " + a.getFornavn());
             }
+        }
+    }
+
+
+    public static void leggTilNyAvdeling() {
+        System.out.println("\n========== LEGGE INN NY AVDELING==========");
+
+        System.out.print("Avdelingsnavn: ");
+        String avdelingNavn = scanner.nextLine().trim();
+
+        System.out.print("AnsattID til Sjef: ");
+        Long sjefId = lesLong();
+        Ansatt sjef = dao.finnAnsattMedID(Math.toIntExact(sjefId));
+
+        try {
+            Avdeling nyAvdeling = new Avdeling(avdelingNavn, sjef);
+            avdelingDAO.leggTilAvdeling(nyAvdeling);
+            System.out.println("Ny avdeling lagt til!");
+        } catch (Exception e) {
+            System.out.println("Feil ved innsetting: " + e.getMessage());
         }
     }
 

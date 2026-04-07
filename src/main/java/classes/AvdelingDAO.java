@@ -42,4 +42,17 @@ public class AvdelingDAO {
         }
     }
 
+    public void leggTilAvdeling(Avdeling avdeling) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            em.getTransaction().begin();
+            em.persist(avdeling);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            throw e;
+        } finally {
+            em.close();
+        }
+    }
 }
