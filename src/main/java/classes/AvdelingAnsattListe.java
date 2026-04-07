@@ -37,7 +37,7 @@ public class AvdelingAnsattListe {
             System.out.println("Ansatte:");
 
             TypedQuery<Ansatt> query = em.createQuery(
-                    "SELECT a FROM Ansatt a WHERE a.avdeling.avdelingId = :avdelingId ORDER BY a.etternavn, a.fornavn",
+                    "SELECT a FROM Ansatt a WHERE a.avdeling.avdelingid = :avdelingId ORDER BY a.etternavn, a.fornavn",
                     Ansatt.class);
             query.setParameter("avdelingId", avdelingId);
             List<Ansatt> ansatte = query.getResultList();

@@ -115,7 +115,6 @@ public class AnsattMeny {
     private static void oppdaterAnsatt() {
         System.out.print("Skriv inn ansatt-ID: ");
         int id = lesInt();
-        scanner.nextLine(); // consume newline
         Ansatt ansatt = dao.finnAnsattMedID(id);
 
         if (ansatt == null) {
@@ -143,13 +142,31 @@ public class AnsattMeny {
             }
         }
 
-        try {
-            dao.oppdaterAnsatt(ansatt);
-            System.out.println("Ansatt oppdatert successfully!");
-        } catch (Exception e) {
-            System.out.println("Feil ved oppdatering: " + e.getMessage());
+        System.out.print("Oppgi ny ID for avdeling (eller trykk Enter for å beholde): ");
+        Long avdelingid = lesLong();
+
+        if (avdelingid != 0) {
+            Avdeling avdeling = avdelingDAO.finnAvdelingMedId(avdelingid);
+
+            if (avdeling != null) {
+                ansatt.setAvdeling(avdeling);
+            } else {
+                System.out.println("Ugyldig AvdelingId. Beholder gammel verdi.");
+            }
         }
-    }
+
+            try {
+                dao.oppdaterAnsatt(ansatt);
+                System.out.println("Ansatt oppdatert successfully!");
+            } catch (IllegalArgumentException e) {
+                System.out.println("Feil ved oppdatering: " + e.getMessage());
+            }
+            catch (Exception e) {
+                System.out.println("Feil ved oppdatering: " + e.getMessage());
+                e.printStackTrace();
+            }
+
+        }
 
     private static void leggInnNyAnsatt() {
         System.out.println("\n========== LEGGE INN NY ANSATT ==========");
@@ -208,7 +225,7 @@ public class AnsattMeny {
         EntityManager em = emf.createEntityManager();
 
         try {
-            Query query = em.createQuery("SELECT a FROM Ansatt a WHERE a.avdelingid = :avdeling", Ansatt.class);
+            Query query = em.createQuery("SELECT a FROM Ansatt a WHERE a.avdeling = :avdeling", Ansatt.class);
             query.setParameter("avdeling", avdeling);
             return query.getResultList();
         } finally {

@@ -21,7 +21,6 @@ public class AvdelingDAO {
         }
     }
 
-<<<<<<< HEAD
     public void leggTilAvdeling(String avdelingNavn, int sjefId) {
         EntityManager em = emf.createEntityManager();
         try {
@@ -41,11 +40,6 @@ public class AvdelingDAO {
         } finally {
             em.close();
         }
-=======
-    public static void oppdaterAvdeling(Ansatt ansatt, Avdeling avdeling) {
-
-
-
->>>>>>> c601bbf0659ef99c3d9aaf73e08b24f955d8e960
     }
+
 }

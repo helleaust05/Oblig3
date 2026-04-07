@@ -63,7 +63,7 @@ public class AnsattDAO {
             if (avdeling == null) {
                 throw new IllegalArgumentException("Avdeling med ID " + avdelingId + " finnes ikke.");
             }
-            ansatt.setAvdeling(avdeling);
+            avdeling.setAvdelingId(avdeling.getAvdelingId());
 
             em.getTransaction().begin();
             em.persist(ansatt);
@@ -92,15 +92,18 @@ public class AnsattDAO {
             List<Avdeling> sjefAvdelinger = sjefQuery.getResultList();
 
             if (!sjefAvdelinger.isEmpty()) {
-                Long gjeldendeAvdelingId = eksisterende.getAvdeling() == null ? null : eksisterende.getAvdeling().getAvdelingId();
-                Long nyAvdelingId = ansatt.getAvdeling() == null ? null : ansatt.getAvdeling().getAvdelingId();
+                Long gjeldendeAvdelingId = eksisterende.getAvdeling().getAvdelingId() == null ? null : eksisterende.getAvdeling().getAvdelingId();
+                Long nyAvdelingId = ansatt.getAvdeling().getAvdelingId() == null ? null : ansatt.getAvdeling().getAvdelingId();
 
                 if (!java.util.Objects.equals(gjeldendeAvdelingId, nyAvdelingId)) {
                     throw new IllegalArgumentException("Ansatt som er sjef kan ikke bytte avdeling.");
                 }
             }
 
-            em.merge(ansatt);
+            eksisterende.setStilling(ansatt.getStilling());
+            eksisterende.setManedslonn(ansatt.getManedslonn());
+            eksisterende.setAvdeling(ansatt.getAvdeling());
+
             em.getTransaction().commit();
         } catch (Exception e) {
             em.getTransaction().rollback();

@@ -31,7 +31,7 @@ public class Ansatt {
 
     @ManyToOne
     @JoinColumn(name = "avdelingid")
-    private Avdeling avdelingid;
+    private Avdeling avdeling;
 
   //Tom konstruktør
     public Ansatt() {}
@@ -64,13 +64,11 @@ public class Ansatt {
     public double getManedslonn() {return manedslonn;}
     public void setManedslonn(Double manedslonn) {this.manedslonn = manedslonn;}
 
-    public Avdeling getAvdeling() {return avdeling;}
-    public void setAvdeling(Avdeling avdeling) {this.avdeling = avdeling;}
-
     public java.time.LocalDate getAnsettelseDato() {return ansettelseDato;}
     public void setAnsettelseDato(java.time.LocalDate ansettelseDato) {this.ansettelseDato = ansettelseDato;}
 
-    public void setAvdeling(Avdeling avdelingid) {this.avdelingid = avdelingid;}
+    public Avdeling getAvdeling() {return avdeling;}
+    public  void setAvdeling(Avdeling avdeling) {this.avdeling = avdeling;}
 
     @Override
     public String toString() {
