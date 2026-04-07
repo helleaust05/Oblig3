@@ -3,7 +3,7 @@ package classes;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
-import jakarta.persistence.Query;
+import jakarta.persistence.TypedQuery;
 import java.util.List;
 
 public class AnsattDAO {
@@ -23,7 +23,7 @@ public class AnsattDAO {
     public Ansatt finnAnsattMedBrukernavn(String brukernavn) {
         EntityManager em = emf.createEntityManager();
         try {
-            Query query = em.createQuery("SELECT a FROM Ansatt a WHERE a.brukernavn = :brukernavn");
+            TypedQuery<Ansatt> query = em.createQuery("SELECT a FROM Ansatt a WHERE a.brukernavn = :brukernavn", Ansatt.class);
             query.setParameter("brukernavn", brukernavn);
             List<Ansatt> resultater = query.getResultList();
             return resultater.isEmpty() ? null : resultater.get(0);
@@ -32,11 +32,10 @@ public class AnsattDAO {
         }
     }
 
-    @SuppressWarnings("unchecked")
     public List<Ansatt> hentAlleAnsatte() {
         EntityManager em = emf.createEntityManager();
         try {
-            Query query = em.createQuery("SELECT a FROM Ansatt a");
+            TypedQuery<Ansatt> query = em.createQuery("SELECT a FROM Ansatt a", Ansatt.class);
             return query.getResultList();
         } finally {
             em.close();
@@ -57,10 +56,50 @@ public class AnsattDAO {
         }
     }
 
+    public void leggTilAnsattMedAvdeling(Ansatt ansatt, long avdelingId) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            Avdeling avdeling = em.find(Avdeling.class, avdelingId);
+            if (avdeling == null) {
+                throw new IllegalArgumentException("Avdeling med ID " + avdelingId + " finnes ikke.");
+            }
+            ansatt.setAvdeling(avdeling);
+
+            em.getTransaction().begin();
+            em.persist(ansatt);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            throw e;
+        } finally {
+            em.close();
+        }
+    }
+
     public void oppdaterAnsatt(Ansatt ansatt) {
         EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
+
+            Ansatt eksisterende = em.find(Ansatt.class, ansatt.getId());
+            if (eksisterende == null) {
+                throw new IllegalArgumentException("Ansatt med ID " + ansatt.getId() + " finnes ikke.");
+            }
+
+            TypedQuery<Avdeling> sjefQuery = em.createQuery(
+                    "SELECT a FROM Avdeling a WHERE a.sjef.ansattId = :ansattId", Avdeling.class);
+            sjefQuery.setParameter("ansattId", ansatt.getId());
+            List<Avdeling> sjefAvdelinger = sjefQuery.getResultList();
+
+            if (!sjefAvdelinger.isEmpty()) {
+                Long gjeldendeAvdelingId = eksisterende.getAvdeling() == null ? null : eksisterende.getAvdeling().getAvdelingId();
+                Long nyAvdelingId = ansatt.getAvdeling() == null ? null : ansatt.getAvdeling().getAvdelingId();
+
+                if (!java.util.Objects.equals(gjeldendeAvdelingId, nyAvdelingId)) {
+                    throw new IllegalArgumentException("Ansatt som er sjef kan ikke bytte avdeling.");
+                }
+            }
+
             em.merge(ansatt);
             em.getTransaction().commit();
         } catch (Exception e) {

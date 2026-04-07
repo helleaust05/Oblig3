@@ -7,6 +7,7 @@
 
         <class>classes.Ansatt</class>
         <class>classes.Avdeling</class>
+        <class>classes.Prosjekt</class>
 
 
     <properties>

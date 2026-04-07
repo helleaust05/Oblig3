@@ -63,12 +63,15 @@ public class Ansatt {
     public double getManedslonn() {return manedslonn;}
     public void setManedslonn(Double manedslonn) {this.manedslonn = manedslonn;}
 
+    public Avdeling getAvdeling() {return avdeling;}
+    public void setAvdeling(Avdeling avdeling) {this.avdeling = avdeling;}
+
     public java.time.LocalDate getAnsettelseDato() {return ansettelseDato;}
     public void setAnsettelseDato(java.time.LocalDate ansettelseDato) {this.ansettelseDato = ansettelseDato;}
 
     @Override
     public String toString() {
-        return "[AnsattID: " + ansattId + "\nBrukernavn: " + brukernavn + "\nNavn: " + fornavn + " " + etternavn + "\nStilling: " + stilling + "\nMånedslønn: " + "\nDato: " + ansettelseDato + "]";
+        return "[AnsattID: " + ansattId + "\nBrukernavn: " + brukernavn + "\nNavn: " + fornavn + " " + etternavn + "\nStilling: " + stilling + "\nMånedslønn: " + manedslonn + "\nAvdeling: " + (avdeling == null ? "Ingen" : avdeling.getAvdelingNavn()) + "\nDato: " + ansettelseDato + "]";
     }
 }
 

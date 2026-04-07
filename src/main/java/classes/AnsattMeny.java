@@ -2,7 +2,6 @@ package classes;
 
 import java.util.List;
 import java.util.Scanner;
-import java.time.LocalDate;
 
 public class AnsattMeny {
 
@@ -156,9 +155,12 @@ public class AnsattMeny {
         System.out.print("Månedslønn: ");
         double lonn = lesDouble();
 
+        System.out.print("Avdeling ID: ");
+        long avdelingId = lesLong();
+
         try {
             Ansatt nyAnsatt = new Ansatt(brukernavn, fornavn, etternavn, stilling, lonn);
-            dao.leggTilAnsatt(nyAnsatt);
+            dao.leggTilAnsattMedAvdeling(nyAnsatt, avdelingId);
             System.out.println("Ny ansatt lagt til successfully!");
         } catch (Exception e) {
             System.out.println("Feil ved innsetting: " + e.getMessage());
@@ -172,6 +174,7 @@ public class AnsattMeny {
         System.out.println("Etternavn: " + ansatt.getEtternavn());
         System.out.println("Stilling: " + ansatt.getStilling());
         System.out.println("Månedslønn: " + ansatt.getManedslonn());
+        System.out.println("Avdeling: " + (ansatt.getAvdeling() == null ? "Ingen" : ansatt.getAvdeling().getAvdelingNavn()));
         System.out.println("Ansettelsesdato: " + ansatt.getAnsettelseDato());
     }
 
@@ -193,6 +196,17 @@ public class AnsattMeny {
             return verdi;
         } catch (Exception e) {
             scanner.nextLine(); // consume bad input
+            return -1;
+        }
+    }
+
+    private static long lesLong() {
+        try {
+            long verdi = scanner.nextLong();
+            scanner.nextLine(); // consume newline
+            return verdi;
+        } catch (Exception e) {
+            scanner.nextLine();
             return -1;
         }
     }
