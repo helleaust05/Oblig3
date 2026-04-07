@@ -7,9 +7,10 @@ public class AvdelingMainTest {
 
     public static void main(String[] args) {
 
-        private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("default");
-        AvdelingDAO dao = new AvdelingDAO();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("default");
+        AvdelingDAO dao = new AvdelingDAO(emf);
 
-        Avdeling avdelingTest = AvdelingDAO.finnAvdelingMedId(1);
+        Avdeling avdeling = dao.finnAvdelingMedId(1);
+        System.out.println(avdeling.getAvdelingNavn());
     }
 }

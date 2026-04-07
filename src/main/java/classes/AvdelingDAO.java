@@ -5,17 +5,17 @@ import jakarta.persistence.*;
 public class AvdelingDAO {
 
     private EntityManagerFactory emf;
+
     public AvdelingDAO(EntityManagerFactory emf) {
         this.emf = emf;
     }
 
-    public Avdeling finnAvdelingMedId(long avdelingId) {
+    public Avdeling finnAvdelingMedId(long avdelingid) {
 
         EntityManager em = emf.createEntityManager();
 
         try {
-            Avdeling avdeling = em.find(Avdeling.class, avdelingId);
-            return avdeling;
+            return em.find(Avdeling.class, avdelingid);
         } finally {
             em.close();
         }
