@@ -27,3 +27,10 @@ ALTER TABLE Avdeling ADD CONSTRAINT fkSjef FOREIGN KEY (sjefID) REFERENCES Ansat
 
 UPDATE Avdeling SET sjefId = 1 WHERE avdelingId = 1;
 UPDATE Avdeling SET sjefId = 2 WHERE avdelingId = 2;
+
+--liten feilretting her
+
+ALTER TABLE ansatt ADD COLUMN avdelingid INT REFERENCES avdeling(avdelingid);
+
+UPDATE ansatt SET avdelingid = 1 WHERE ansattid = 1;
+UPDATE ansatt SET avdelingid = 1 WHERE ansattid = 2;

@@ -3,34 +3,35 @@ package classes;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "Ansatt")
+@Table(name = "ansatt")
 public class Ansatt {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ansattid")
     private Integer ansattId;
 
-    @Column(unique = true)
+    @Column(name = "brukernavn", unique = true)
     private String brukernavn;
 
-    @Column(nullable = false)
+    @Column(name = "fornavn", nullable = false)
     private String fornavn;
 
-    @Column(nullable = false)
+    @Column(name = "etternavn" , nullable = false)
     private String etternavn;
 
-    @Column(name = "TidAnsettelse")
+    @Column(name = "ansattdato")
     private java.time.LocalDate ansettelseDato;
 
-    @Column
+    @Column(name = "stilling")
     private String stilling;
 
-    @Column
+    @Column(name = "manedslonn")
     private double manedslonn;
 
     @ManyToOne
-    @JoinColumn(name = "avdelingID")
-    private Avdeling avdeling;
+    @JoinColumn(name = "avdelingid")
+    private Avdeling avdelingid;
 
   //Tom konstruktør
     public Ansatt() {}
@@ -68,6 +69,8 @@ public class Ansatt {
 
     public java.time.LocalDate getAnsettelseDato() {return ansettelseDato;}
     public void setAnsettelseDato(java.time.LocalDate ansettelseDato) {this.ansettelseDato = ansettelseDato;}
+
+    public void setAvdeling(Avdeling avdelingid) {this.avdelingid = avdelingid;}
 
     @Override
     public String toString() {

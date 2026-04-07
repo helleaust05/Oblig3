@@ -8,14 +8,14 @@ public class Avdeling {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "avdelingID")
-    private Long avdelingId;
+    @Column(name = "avdelingid")
+    private Long avdelingid;
 
-    @Column
+    @Column(name = "avdelingnavn")
     private String avdelingNavn;
 
     @OneToOne
-    @JoinColumn(name = "sjef")
+    @JoinColumn(name = "sjefid")
     private Ansatt sjef;
 
     public Avdeling() {}
@@ -25,7 +25,8 @@ public class Avdeling {
         this.sjef = sjef;
     }
 
-    public Long getAvdelingId() {return avdelingId;}
+    public Long getAvdelingId() {return avdelingid;}
+    public void setAvdelingId(Long avdelingid) {this.avdelingid = avdelingid;}
 
     public String getAvdelingNavn() {return avdelingNavn;}
     public void setAvdelingNavn(String avdelingNavn) {this.avdelingNavn = avdelingNavn;}
