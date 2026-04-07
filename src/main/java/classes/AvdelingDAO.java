@@ -20,4 +20,10 @@ public class AvdelingDAO {
             em.close();
         }
     }
+
+    public static void oppdaterAvdeling(Ansatt ansatt, Avdeling avdeling) {
+
+
+
+    }
 }

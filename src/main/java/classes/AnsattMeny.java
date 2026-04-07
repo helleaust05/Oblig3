@@ -1,19 +1,19 @@
 package classes;
 
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
+import jakarta.persistence.Query;
 
 import java.util.List;
 import java.util.Scanner;
-import java.time.LocalDate;
-
-import static classes.AnsattDAO.*;
 
 public class AnsattMeny {
 
     private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("default");
     private static AnsattDAO dao = new AnsattDAO();
     private static Scanner scanner = new Scanner(System.in);
+    private static AvdelingDAO avdelingDAO = new AvdelingDAO(emf);
 
     public static void main(String[] args) {
         boolean kjorer = true;
@@ -39,6 +39,12 @@ public class AnsattMeny {
                     leggInnNyAnsatt();
                     break;
                 case 6:
+                    skrivUtAvdelingMedId();
+                    break;
+                case 7:
+                    skrivUtAvdeling();
+                    break;
+                case 8:
                     kjorer = false;
                     System.out.println("Avslutter programmet.");
                     break;
@@ -62,8 +68,10 @@ public class AnsattMeny {
         System.out.println("3. Liste alle ansatte");
         System.out.println("4. Oppdatere ansatt (stilling/lønn)");
         System.out.println("5. Legge inn ny ansatt");
-        System.out.println("6. Avslutt");
-        System.out.print("Velg alternativ (1-6): ");
+        System.out.println("6. Finn avdeling med ID");
+        System.out.println("7. Skriv ut avdeling");
+        System.out.println("8. Avslutt");
+        System.out.print("Velg alternativ (1-8): ");
     }
 
     private static void sokEtterID() {
@@ -164,7 +172,6 @@ public class AnsattMeny {
         System.out.print("AvdelingID: ");
         long avdelingid = lesLong();
 
-        AvdelingDAO avdelingDAO = new AvdelingDAO(emf);
         Avdeling avdeling = avdelingDAO.finnAvdelingMedId(avdelingid);
 
         if (avdeling == null) {
@@ -189,6 +196,52 @@ public class AnsattMeny {
         System.out.println("Stilling: " + ansatt.getStilling());
         System.out.println("Månedslønn: " + ansatt.getManedslonn());
         System.out.println("Ansettelsesdato: " + ansatt.getAnsettelseDato());
+    }
+
+    public static void skrivUtAvdelingMedId() { //Tar inn Id nummer og skriver ut navnet
+        System.out.println("Skriv Id");
+        Long id = lesLong();
+        Avdeling avdeling = avdelingDAO.finnAvdelingMedId(id);
+
+        if (avdeling == null) {
+            System.out.println("Ugyldig ID");
+            return;
+        }
+        System.out.println(avdeling.getAvdelingNavn());
+    }
+
+    public static List alleIAvdeling(Avdeling avdeling) { //finner ansatte i avdeling
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            Query query = em.createQuery("SELECT a FROM Ansatt a WHERE a.avdelingid = :avdeling", Ansatt.class);
+            query.setParameter("avdeling", avdeling);
+            return query.getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
+    public static void skrivUtAvdeling() {
+        System.out.println("Skriv Id");
+        Long avdelingid = lesLong();
+        Avdeling avdeling = avdelingDAO.finnAvdelingMedId(avdelingid);
+
+        if (avdeling == null) {
+            System.out.println("Ugyldig ID");
+            return;
+        }
+        System.out.println("--" + avdeling.getAvdelingNavn() + "--");
+
+        List<Ansatt> ansatte = alleIAvdeling(avdeling);
+
+        for (Ansatt a : ansatte) {
+            if (a.getId().equals(avdeling.getSjef().getId())){
+                System.out.println(("Sjef: ") + a.getFornavn() + " " + a.getEtternavn());
+            } else {
+                System.out.println("Fornavn: " + a.getFornavn());
+            }
+        }
     }
 
     private static int lesInt() {
