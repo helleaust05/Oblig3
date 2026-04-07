@@ -1,11 +1,17 @@
 package classes;
 
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
+
 import java.util.List;
 import java.util.Scanner;
 import java.time.LocalDate;
 
+import static classes.AnsattDAO.*;
+
 public class AnsattMeny {
 
+    private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("default");
     private static AnsattDAO dao = new AnsattDAO();
     private static Scanner scanner = new Scanner(System.in);
 
@@ -138,7 +144,6 @@ public class AnsattMeny {
     }
 
     private static void leggInnNyAnsatt() {
-        scanner.nextLine(); // consume newline if needed
         System.out.println("\n========== LEGGE INN NY ANSATT ==========");
 
         System.out.print("Brukernavn (initialer): ");
@@ -156,12 +161,23 @@ public class AnsattMeny {
         System.out.print("Månedslønn: ");
         double lonn = lesDouble();
 
-        try {
-            Ansatt nyAnsatt = new Ansatt(brukernavn, fornavn, etternavn, stilling, lonn);
-            dao.leggTilAnsatt(nyAnsatt);
-            System.out.println("Ny ansatt lagt til successfully!");
-        } catch (Exception e) {
-            System.out.println("Feil ved innsetting: " + e.getMessage());
+        System.out.print("AvdelingID: ");
+        long avdelingid = lesLong();
+
+        AvdelingDAO avdelingDAO = new AvdelingDAO(emf);
+        Avdeling avdeling = avdelingDAO.finnAvdelingMedId(avdelingid);
+
+        if (avdeling == null) {
+            System.out.println("Ugyldig ID.");
+        } else {
+            try {
+                Ansatt nyAnsatt = new Ansatt(brukernavn, fornavn, etternavn, stilling, lonn);
+                nyAnsatt.setAvdeling(avdeling);
+                dao.leggTilAnsatt(nyAnsatt);
+                System.out.println("Ny ansatt lagt til successfully!");
+            } catch (Exception e) {
+                System.out.println("Feil ved innsetting: " + e.getMessage());
+            }
         }
     }
 
@@ -178,10 +194,10 @@ public class AnsattMeny {
     private static int lesInt() {
         try {
             int verdi = scanner.nextInt();
-            scanner.nextLine(); // consume newline
+            scanner.nextLine();
             return verdi;
         } catch (Exception e) {
-            scanner.nextLine(); // consume bad input
+            scanner.nextLine();
             return -1;
         }
     }
@@ -189,11 +205,22 @@ public class AnsattMeny {
     private static double lesDouble() {
         try {
             double verdi = scanner.nextDouble();
-            scanner.nextLine(); // consume newline
+            scanner.nextLine();
             return verdi;
         } catch (Exception e) {
-            scanner.nextLine(); // consume bad input
+            scanner.nextLine();
             return -1;
         }
     }
+    private static long lesLong() {
+        try {
+            long verdi = scanner.nextLong();
+            scanner.nextLine();
+            return verdi;
+        } catch (Exception e) {
+            scanner.nextLine();
+            return -1;
+        }
+    }
+
 }

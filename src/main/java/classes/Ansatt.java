@@ -31,7 +31,7 @@ public class Ansatt {
 
     @ManyToOne
     @JoinColumn(name = "avdelingid")
-    private Avdeling avdeling;
+    private Avdeling avdelingid;
 
   //Tom konstruktør
     public Ansatt() {}
@@ -66,6 +66,8 @@ public class Ansatt {
 
     public java.time.LocalDate getAnsettelseDato() {return ansettelseDato;}
     public void setAnsettelseDato(java.time.LocalDate ansettelseDato) {this.ansettelseDato = ansettelseDato;}
+
+    public void setAvdeling(Avdeling avdelingid) {this.avdelingid = avdelingid;}
 
     @Override
     public String toString() {

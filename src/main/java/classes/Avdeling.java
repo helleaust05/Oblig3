@@ -26,6 +26,7 @@ public class Avdeling {
     }
 
     public Long getAvdelingId() {return avdelingid;}
+    public void setAvdelingId(Long avdelingid) {this.avdelingid = avdelingid;}
 
     public String getAvdelingNavn() {return avdelingNavn;}
     public void setAvdelingNavn(String avdelingNavn) {this.avdelingNavn = avdelingNavn;}
